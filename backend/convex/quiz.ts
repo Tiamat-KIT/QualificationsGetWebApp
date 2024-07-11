@@ -5,16 +5,14 @@ export const addQuiz = mutation({
     args: {
         title: v.string(),
         description: v.string(),
-        answer: v.union(v.string(),v.number()),
-        answer_description: v.string(),
+        selection: v.id("selection"),
         exam_id: v.id("exam")
     },
     handler: async (ctx,args) => {
         await ctx.db.insert("quiz",{
             title: args.title,
             description: args.description,
-            answer: args.answer,
-            answer_description: args.answer_description,
+            selection: args.selection,
             exam_id: args.exam_id
         })
     }

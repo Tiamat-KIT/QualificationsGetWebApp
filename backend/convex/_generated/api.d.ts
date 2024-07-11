@@ -16,6 +16,7 @@ import type {
 } from "convex/server";
 import type * as exam from "../exam.js";
 import type * as quiz from "../quiz.js";
+import type * as selection from "../selection.js";
 
 /**
  * A utility for referencing Convex functions in your app's API.
@@ -28,6 +29,7 @@ import type * as quiz from "../quiz.js";
 declare const fullApi: ApiFromModules<{
   exam: typeof exam;
   quiz: typeof quiz;
+  selection: typeof selection;
 }>;
 export declare const api: FilterApi<
   typeof fullApi,

@@ -11,7 +11,11 @@ export default defineSchema({
         exam_id: v.id("exam"),
         title: v.string(),
         description: v.string(),
-        answer: v.union(v.string(),v.number()),
-        answer_description: v.string()
+        selection: v.id("selection")
+    }),
+    selection: defineTable({
+        selection: v.array(v.string()),
+        answer: v.string(),
+        answer_string:v.string()
     })
 })

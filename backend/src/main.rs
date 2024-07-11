@@ -2,6 +2,7 @@ use std::{
     collections::BTreeMap,
     env,
 };
+use axum::{routing::get,routing::post, Router};
 
 use convex::ConvexClient;
 
@@ -9,8 +10,13 @@ use convex::ConvexClient;
 async fn main() {
     let deployment_url = get_deployment_url();
     let mut client = ConvexClient::new(&deployment_url).await.unwrap();
-    let result = client.mutation("exam:testAdd", BTreeMap::new()).await.unwrap();
-    println!("{result:#?}");
+    async fn add_handler() -> String {
+        let result = client.mutation("exam:testAdd", BTreeMap::new()).await.unwrap();
+        return result
+    }
+    let app = Router::new().route("/add",get());
+    let listener = tokio::net::TcpListener::bind("0.0.0.0:3000");
+    axum::serve(listener,app).await.unwrap();
 }
 
 fn get_deployment_url() -> String{
