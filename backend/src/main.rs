@@ -1,21 +1,20 @@
 use std::{
     collections::BTreeMap,
-    env,
+    env, fmt::Debug,
 };
-use axum::{routing::get,routing::post, Router};
+use axum::{routing::{get, post}, Json, Router};
 
-use convex::ConvexClient;
+use convex::{ConvexClient, FunctionResult};
 
 #[tokio::main]
 async fn main() {
-    let deployment_url = get_deployment_url();
-    let mut client = ConvexClient::new(&deployment_url).await.unwrap();
-    async fn add_handler() -> String {
-        let result = client.mutation("exam:testAdd", BTreeMap::new()).await.unwrap();
-        return result
+    async fn add_handler() {
+        let deployment_url = get_deployment_url();
+        let mut client = ConvexClient::new(&deployment_url).await.unwrap();
+        let _result = client.mutation("exam:testAdd", BTreeMap::new()).await.unwrap();
     }
-    let app = Router::new().route("/add",get());
-    let listener = tokio::net::TcpListener::bind("0.0.0.0:3000");
+    let app = Router::new().route("/add",get(add_handler));
+    let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await.unwrap();
     axum::serve(listener,app).await.unwrap();
 }
 

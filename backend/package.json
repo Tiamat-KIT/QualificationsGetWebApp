@@ -2,6 +2,9 @@
   "name": "qualificationsapi",
   "module": "index.ts",
   "type": "module",
+  "scripts": {
+    "dev": "convex dev"
+  },
   "devDependencies": {
     "bun-types": "latest"
   },
